@@ -1,7 +1,10 @@
 package main 
 
-import "github.com/Hcode30/rego/rego"
+import (
+r "github.com/Hcode00/rego/regolib"
+)
 
 func main() {
     println("Hello World!")
+    r.InitiateHTMLFile()
 }
