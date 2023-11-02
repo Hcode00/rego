@@ -82,6 +82,7 @@ func (p *Page) AddLink(Rel, Href, Type, As string) {
 		Type: Type,
 		HTML: fmt.Sprintf(`<link> rel="%s" href="%s" type="%s" as="%s"`, Rel, Href, Type, As) + "\n",
 	}
+	println(link.HTML)
 	p.Head.Link = append(p.Head.Link, link)
 }
 func (p *Page) GetLinks() []Link {
@@ -90,7 +91,10 @@ func (p *Page) GetLinks() []Link {
 func (p *Page) GetLinksHTML() string {
 	str := ""
 	for _, link := range p.Head.Link {
-		str += link.HTML
+		if link.HTML == "" {
+			link.HTML = fmt.Sprintf(`<link> rel="%s" href="%s" type="%s" as="%s"`, link.Rel, link.Href, link.Type, link.As) + "\n"
+			str += link.HTML
+		}
 	}
 	return str
 }
@@ -111,6 +115,9 @@ func (p *Page) GetScripts() []Script {
 func (p *Page) GetScriptsHTML() string {
 	str := ""
 	for _, script := range p.Head.Script {
+		if script.HTML == "" {
+			script.HTML = fmt.Sprintf(`<script type="%s" src="%s" %s></script>`, script.Type, script.Src, script.Attr) + "\n"
+		}
 		str += script.HTML
 	}
 	return str
@@ -143,6 +150,13 @@ func (p *Page) GetMetas() []Meta {
 func (p *Page) GetMetasHTML() string {
 	str := ""
 	for _, meta := range p.Head.Meta {
+		if meta.HTML == "" {
+			if meta.Charset == "" {
+				meta.HTML = fmt.Sprintf(`<meta name="%s" content="%s" property="%s">`, meta.Name, meta.Content, meta.Property) + "\n"
+			} else {
+				meta.HTML = fmt.Sprintf(`<meta name="%s" content="%s" charset="%s" property="%s">`, meta.Name, meta.Content, meta.Charset, meta.Property) + "\n"
+			}
+		}
 		str += meta.HTML
 	}
 	return str
@@ -178,10 +192,71 @@ func (p *Page) AddElement(Tag, Attr, Class, Id string, Content interface{}) {
 func (p *Page) GetElements() []Element {
 	return p.Body.Elements
 }
+
+
 func (p *Page) GetElementsHTML() string {
-	str := ""
-	for _, element := range p.Body.Elements {
-		str += element.HTML
-	}
-	return str
+    str := ""
+    for _, element := range p.Body.Elements {
+        switch v := element.Content.(type) {
+        case string:
+            element.HTML = generateElementHTML(element)
+        case []Element:
+            element.HTML = generateNestedElementsHTML(v)
+        case Element:
+            element.HTML = generateElementHTML(element)
+        default:
+            // Handle other cases if necessary
+        }
+        str += element.HTML
+    }
+    return str
 }
+
+func generateNestedElementsHTML(elements []Element) string {
+    str := ""
+    for _, element := range elements {
+        switch v := element.Content.(type) {
+        case string:
+            element.HTML = generateElementHTML(element)
+        case []Element:
+            element.HTML = generateNestedElementsHTML(v) // Recursively generate HTML for nested elements
+        case Element:
+            element.HTML = generateElementHTML(element)
+        default:
+            // Handle other cases if necessary
+        }
+        str += element.HTML
+    }
+    return str
+}
+
+
+func generateElementHTML(element Element) string {
+    if element.Tag == "" {
+        element.Tag = "div" // Default to 'div' if tag is not provided
+    }
+
+    // Initialize an empty string to hold the HTML
+    html := fmt.Sprintf("<%s", element.Tag)
+
+    if element.Attr != "" {
+        html += " " + element.Attr
+    }
+
+    if element.Class != "" {
+        html += fmt.Sprintf(" class='%s'", element.Class)
+    }
+
+    if element.Id != "" {
+        html += fmt.Sprintf(" id='%s'", element.Id)
+    }
+
+    if v, isString := element.Content.(string); isString {
+        html += fmt.Sprintf(">%s</%s>\n", v, element.Tag)
+    } else {
+        html += "></" + element.Tag + ">\n"
+    }
+
+    return html
+}
+

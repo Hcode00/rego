@@ -8,12 +8,12 @@ var BASE_FILE string= "index.html"
 var INITIAL_TEMPLATE string= 
 `<!DOCTYPE html>
 <html lang="((LANG))">
-    <head>
-        ((HEAD))
-    </head>
-    <body ((BODY.ATTR))>
-        ((BODY.ELEMENTS))
-    </body>
+<head>
+((HEAD))
+</head>
+<body ((BODY.ATTR))>
+((BODY.ELEMENTS))
+</body>
 </html>`
 
 
