@@ -1,10 +1,19 @@
-package main 
+package main
 
 import (
-r "github.com/Hcode00/rego/regolib"
+	"github.com/Hcode30/rego/cmd/web/rego"
 )
 
 func main() {
-    println("Hello World!")
-    r.InitiateHTMLFile()
+	HomePage := rego.Page{
+		Lang: "ar",
+		Head: rego.Head{
+			Title: "Home Page",
+		},
+		Body: rego.Body{
+			Attr:     "class='home'",
+			Elements: []rego.Element{}},
+	}
+    println(rego.MakeTemplate(HomePage))
+
 }
