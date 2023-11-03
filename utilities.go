@@ -34,13 +34,11 @@ func MakeHTMLFile(content, filename, dir string) string {
 	return filePath
 }
 
-
-
 func ReplaceLang(Page Page, template string) string {
 	language := Page.GetLang()
 	if language == "" {
 		language = LANG
-    }
+	}
 	template = strings.Replace(template, "((LANG))", language, 1)
 	return template
 }
@@ -75,4 +73,3 @@ func BodyElementsToTemplate(Page Page, template string) string {
 	}
 	return template
 }
-

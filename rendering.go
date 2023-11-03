@@ -1,11 +1,8 @@
 package rego
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // Lang
-
 func (p *Page) SetLang(lang string) {
 	LANGS := []string{"af", "ar", "az", "be", "bg", "bs-Latn", "ca", "cs", "cy-GB", "da", "de", "dv", "el", "en", "es", "et", "eu", "fa", "fi", "fo", "fr", "gl", "gu", "hi", "hr", "hu", "hy", "id", "is", "it", "ja", "ka", "kk", "kn", "ko", "kok-IN", "ky", "lt", "lv", "mi-NZ", "mk", "mn", "mr", "ms", "mt-MT", "nb-NO", "nl", "nn-NO", "no", "ns-ZA", "pa", "pl", "pt", "quz-BO", "quz-EC", "quz-PE", "ro", "ru", "sa", "se-FI", "se-NO", "se-SE", "sk", "sl", "sma-NO", "sma-SE", "smj-NO", "smj-SE", "smn-FI", "sms-FI", "sq", "sr", "sv", "sw", "syr", "ta", "te", "th", "tn-ZA", "tr", "tt", "uk", "ur", "uz", "vi", "xh-ZA", "zh-CN", "zh-HK", "zh-CHS", "zh-CHT", "zh-MO", "zh-SG", "zh-TW", "zu-ZA"}
 	for _, l := range LANGS {
@@ -37,13 +34,6 @@ func (h *Head) GetTitle() string {
 }
 func (h *Head) GetTitleHTML() string {
 	return "<title>" + h.Title + "</title>\n"
-}
-// Style
-func (h *Head) AddStyle(block string) {
-    st := Style{
-        block,
-    }
-    h.Style = append(h.Style, st)
 }
 
 // Link
@@ -212,7 +202,7 @@ func (p *Page) MakeTemplate() {
 	template = HeadToTemplate(*p, template)
 	template = BodyAttrToTemplate(*p, template)
 	template = BodyElementsToTemplate(*p, template)
-    p.Head.UpdateHeadHTML()
+	p.Head.UpdateHeadHTML()
 	p.Body.UpdateBodyHTML()
 	p.SetTemplate(template)
 }
@@ -265,18 +255,18 @@ func (p *Page) GetTemplate() string {
 // Resetting
 // Reset Head
 func (p *Page) ResetHead() {
-    p.Head.Title = ""
-    p.Head.Link = []Link{}
-    p.Head.Script = []Script{}
-    p.Head.Meta = []Meta{}
-    p.MakeTemplate()
+	p.Head.Title = ""
+	p.Head.Link = []Link{}
+	p.Head.Script = []Script{}
+	p.Head.Meta = []Meta{}
+	p.MakeTemplate()
 }
 
 // Reset Body
 func (p *Page) ResetBody() {
-    p.Body.Attr = ""
-    p.Body.Elements = []Element{}
-    p.MakeTemplate()
+	p.Body.Attr = ""
+	p.Body.Elements = []Element{}
+	p.MakeTemplate()
 }
 
 // reset Page
@@ -332,7 +322,6 @@ func GenerateLinkHTML(Rel, Href, Type, As string) string {
 		linkHTML += fmt.Sprintf(` as="%s"`, As)
 	}
 
-
 	linkHTML += ">" + NEW_HEAD_LINE
 	return linkHTML
 }
@@ -370,8 +359,3 @@ func GenerateMetaHTML(Name, Content, Property, Charset string) string {
 	metaHTML += "/>" + NEW_HEAD_LINE
 	return metaHTML
 }
-
-// func (Page *Page) InjectToBody(html string) error {
-// }
-// func (Page *Page) InjectToHead(html string) error {
-// }

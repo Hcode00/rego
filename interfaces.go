@@ -11,7 +11,6 @@ type Head struct {
 	Link   []Link
 	Script []Script
 	Meta   []Meta
-	Style  []Style
 	HTML   string
 }
 type Body struct {
@@ -33,7 +32,6 @@ type Meta struct {
 	Property string
 	HTML     string
 }
-type Style []string
 type Script struct {
 	Type string
 	Attr string
