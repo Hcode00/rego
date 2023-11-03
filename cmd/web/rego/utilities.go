@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func MakeHTMLFile(content, filename, dir string) {
+func MakeHTMLFile(content, filename, dir string) string {
 	if err := os.MkdirAll(HTML_DIR, os.ModePerm); err != nil {
 		fmt.Printf("Failed to create HTML_DIR: %v\n", err)
 		panic(err)
@@ -31,22 +31,16 @@ func MakeHTMLFile(content, filename, dir string) {
 	}
 
 	fmt.Printf("File created: %s\n", filePath)
+	return filePath
 }
 
-func MakeTemplate(Page Page) string {
-	template := INITIAL_TEMPLATE
-	template = ReplaceLang(Page, template)
-	template = HeadToTemplate(Page, template)
-	template = BodyAttrToTemplate(Page, template)
-    template = BodyElementsToTemplate(Page, template)
-	return template
-}
+
 
 func ReplaceLang(Page Page, template string) string {
-	language := Page.Lang
+	language := Page.GetLang()
 	if language == "" {
 		language = LANG
-	}
+    }
 	template = strings.Replace(template, "((LANG))", language, 1)
 	return template
 }
@@ -68,7 +62,7 @@ func HeadToTemplate(Page Page, template string) string {
 }
 
 func BodyAttrToTemplate(Page Page, template string) string {
-	template = strings.Replace(template, "((BODY.ATTR))", Page.Body.Attr, 1)
+	template = strings.Replace(template, "((BODY.ATTR))", Page.Body.GetAttr(), 1)
 	return template
 }
 
@@ -81,3 +75,4 @@ func BodyElementsToTemplate(Page Page, template string) string {
 	}
 	return template
 }
+

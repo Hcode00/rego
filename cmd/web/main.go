@@ -1,10 +1,13 @@
 package main
 
 import (
+	"time"
+
 	r "github.com/Hcode30/rego/cmd/web/rego"
 )
 
 func main() {
+	start := time.Now()
 	htmlGenerationPage := r.Page{
 		Lang: "en",
 		Head: r.Head{
@@ -13,7 +16,7 @@ func main() {
 				{
 					Rel:  "stylesheet",
 					Type: "text/css",
-					Href: "styles.css",
+					Href: "/static/styles.css",
 					As:   "style",
 				},
 				{
@@ -76,7 +79,7 @@ func main() {
 					Content: []r.Element{
 						{
 							Tag:     "h1",
-                            Id:   "title",
+							Id:      "title",
 							Content: "Welcome to the HTML Generation Module",
 						},
 						{
@@ -97,9 +100,35 @@ func main() {
 			},
 		},
 	}
+	defer println("duration:", time.Since(start).String())
 
-    pageText := r.MakeTemplate(htmlGenerationPage)
-    // r.MakeTemplate(htmlGenerationPage)
-	println(pageText)
+	server := r.NewHTMLServer()
 
+	server.RegisterTemplate("/", htmlGenerationPage)
+	server.RegisterHTML("/Rego", base.GetTemplate())
+
+	server.StartRouter(8080)
+
+}
+
+var base r.Page = r.Page{
+	Lang: "Rego",
+	Body: r.Body{
+		Attr: "id=\"rego\"",
+		Elements: []r.Element{
+			{Tag: "h1",
+				Class:   "header",
+				Content: "Rego"},
+		},
+	},
+	Head: r.Head{
+		Title: "Rego",
+		Link: []r.Link{
+			{
+				Rel:  "stylesheet",
+				Type: "text/css",
+				Href: "styles.css",
+			},
+		},
+	},
 }
