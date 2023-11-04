@@ -1,4 +1,4 @@
-module github.com/Hcode30/rego
+module github.com/Hcode00/rego
 
 go 1.21.3
 

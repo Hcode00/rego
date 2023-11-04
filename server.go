@@ -46,3 +46,4 @@ func (s *HTMLServer) StartRouter(port int) {
 	fmt.Printf("Starting server on port %d...\n", port)
 	http.ListenAndServe(addr, mux)
 }
+
