@@ -8,7 +8,7 @@ import (
 )
 
 func MakeHTMLFile(content, filename, dir string) string {
-	if err := os.MkdirAll(HTML_DIR, os.ModePerm); err != nil {
+	if err := os.MkdirAll(HTMLDir, os.ModePerm); err != nil {
 		fmt.Printf("Failed to create HTML_DIR: %v\n", err)
 		panic(err)
 	}
@@ -37,7 +37,7 @@ func MakeHTMLFile(content, filename, dir string) string {
 func ReplaceLang(Page Page, template string) string {
 	language := Page.GetLang()
 	if language == "" {
-		language = LANG
+		language = Lang
 	}
 	template = strings.Replace(template, "((LANG))", language, 1)
 	return template
@@ -74,8 +74,6 @@ func BodyElementsToTemplate(Page Page, template string) string {
 	return template
 }
 
-
-
-func SetStaticDir(path string){
-	STATIC_DIR = path
+func SetStaticDir(path string) {
+	StaticDir = path
 }

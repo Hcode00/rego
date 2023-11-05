@@ -170,7 +170,7 @@ func (b *Body) AddElement(Tag, Attr, Class, Id string, Content interface{}) {
 		Class:   Class,
 		Id:      Id,
 		Content: Content,
-		HTML:    generateElementHTML(element) + NEW_BODY_LINE,
+		HTML:    generateElementHTML(element) + NewBodyLine,
 	}
 	b.Elements = append(b.Elements, element)
 }
@@ -197,7 +197,7 @@ func (p *Page) GetElementsHTML() string {
 
 // Making The Page
 func (p *Page) MakeTemplate() {
-	template := INITIAL_TEMPLATE
+	template := InitialTemplate
 	template = ReplaceLang(*p, template)
 	template = HeadToTemplate(*p, template)
 	template = BodyAttrToTemplate(*p, template)
@@ -217,7 +217,7 @@ func (p *Page) SetTemplate(html string) {
 }
 func (b *Body) UpdateBodyHTML() {
 	str := ""
-	str += "<body " + b.Attr + ">" + NEW_BODY_LINE
+	str += "<body " + b.Attr + ">" + NewBodyLine
 	str += b.GetElementsHTML()
 	str += "</body>"
 	b.HTML = str
@@ -306,14 +306,14 @@ func generateElementHTML(element Element) string {
 		html += fmt.Sprintf(">%s</%s>", v, element.Tag)
 	} else if nestedElements, isSlice := element.Content.([]Element); isSlice {
 		// Handle nested elements
-		html += ">" + NEW_BODY_LINE
+		html += ">" + NewBodyLine
 		for _, nestedElement := range nestedElements {
 			html += generateElementHTML(nestedElement)
 		}
 		html += fmt.Sprintf("</%s>", element.Tag)
 	}
 
-	return html + NEW_BODY_LINE
+	return html + NewBodyLine
 }
 func GenerateLinkHTML(Rel, Href, Type, As string) string {
 	linkHTML := fmt.Sprintf(`<link rel="%s" href="%s" type="%s"`, Rel, Href, Type)
@@ -322,7 +322,7 @@ func GenerateLinkHTML(Rel, Href, Type, As string) string {
 		linkHTML += fmt.Sprintf(` as="%s"`, As)
 	}
 
-	linkHTML += ">" + NEW_HEAD_LINE
+	linkHTML += ">" + NewHeadLine
 	return linkHTML
 }
 
@@ -333,7 +333,7 @@ func GenerateScriptHTML(Type, Src, Attr string) string {
 		scriptHTML += fmt.Sprintf(` %s`, Attr)
 	}
 
-	scriptHTML += "></script>" + NEW_HEAD_LINE
+	scriptHTML += "></script>" + NewHeadLine
 	return scriptHTML
 }
 
@@ -356,6 +356,6 @@ func GenerateMetaHTML(Name, Content, Property, Charset string) string {
 		metaHTML += fmt.Sprintf(` charset="%s"`, Charset)
 	}
 
-	metaHTML += "/>" + NEW_HEAD_LINE
+	metaHTML += "/>" + NewHeadLine
 	return metaHTML
 }

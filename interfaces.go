@@ -47,8 +47,3 @@ type Element struct {
 	HTML    string
 }
 
-type HTMLServer struct {
-	templates map[string]Page
-}
-
-

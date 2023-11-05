@@ -1,14 +1,11 @@
 package rego
 
-var NUM_OF_PAGES int= 0
-var LANG string= "en"
-var NEW_BODY_LINE = "\n"
-var NEW_HEAD_LINE = "\n"
-var STATIC_DIR string= "./ui/static/"
-var HTML_DIR string= "./ui/html"
-var BASE_FILE string= "index.html"
-var INITIAL_TEMPLATE string= 
-`<!DOCTYPE html>
+var NumOfPages int = 0
+var Lang string = "en"
+var NewBodyLine = "\n"
+var NewHeadLine = "\n"
+var HTMLDir string = "./ui/html/"
+var InitialTemplate string = `<!DOCTYPE html>
 <html lang="((LANG))">
 <head>
 ((HEAD))
@@ -18,8 +15,7 @@ var INITIAL_TEMPLATE string=
 </body>
 </html>`
 
-var NOT_FOUND_TEMPLATE string= 
-`<!DOCTYPE html>
+var NotFoundTemplate string = `<!DOCTYPE html>
 <html>
 <head>
     <title>404 - Not Found</title>
@@ -60,5 +56,3 @@ var NOT_FOUND_TEMPLATE string=
 </body>
 </html>
 `
-
-
