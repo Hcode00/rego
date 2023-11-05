@@ -74,6 +74,3 @@ func BodyElementsToTemplate(Page Page, template string) string {
 	return template
 }
 
-func SetStaticDir(path string) {
-	StaticDir = path
-}

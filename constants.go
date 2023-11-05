@@ -1,6 +1,5 @@
 package rego
 
-var NumOfPages int = 0
 var Lang string = "en"
 var NewBodyLine = "\n"
 var NewHeadLine = "\n"
